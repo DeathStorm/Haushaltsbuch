@@ -16,5 +16,10 @@ namespace Haushaltsbuch
         {
             InitializeComponent();
         }
+
+        private void dateiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

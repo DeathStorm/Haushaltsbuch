@@ -16,7 +16,7 @@ namespace Haushaltsbuch
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmNewEntryDialoge());
+            Application.Run(new frmMain());
         }
     }
 }
