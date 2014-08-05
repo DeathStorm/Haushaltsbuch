@@ -16,5 +16,10 @@ namespace Haushaltsbuch
         {
             InitializeComponent();
         }
+
+        private void frmNewEntryDialoge_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
