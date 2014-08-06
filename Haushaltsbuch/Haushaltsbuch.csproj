@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmNewCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewCategory.Designer.cs">
+      <DependentUpon>frmNewCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNewEntryDialoge.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewCategory.resx">
+      <DependentUpon>frmNewCategory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewEntryDialoge.resx">
       <DependentUpon>frmNewEntryDialoge.cs</DependentUpon>

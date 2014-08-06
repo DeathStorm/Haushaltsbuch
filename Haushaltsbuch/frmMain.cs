@@ -19,6 +19,8 @@ namespace Haushaltsbuch
             internal int categoryID;
             internal float value;
             internal string comment;
+            internal DateTime paidOn;
+            internal DateTime createdOn;
         }
 
         private Dictionary<int, BudgetEntry> budgetEntries = new Dictionary<int, BudgetEntry>();
@@ -67,18 +69,40 @@ namespace Haushaltsbuch
             newEntry.cbCategory.DataSource = new BindingSource(categories, null);
             newEntry.cbCategory.DisplayMember = "Value";
             newEntry.cbCategory.ValueMember = "Key";
+            newEntry.dtCreatedOn.Value = DateTime.Now;
+            newEntry.dtPaidOn.Value = DateTime.Now;
 
             if (newEntry.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
+                BudgetEntry budgetEntry = new BudgetEntry();
+
+                if (newEntry.cbCategory.SelectedValue == null)
+                {
+                    MessageBox.Show("Eine neue Kategorie \"" + newEntry.cbCategory.Text + "\" wird angelegt.", "Neue Kategorie", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    int nextCatID = -1;
+                    foreach (int catId in categories.Keys)
+                    { if (catId > nextCatID) nextCatID = catId; }
+                    nextCatID++;
+                    categories.Add(nextCatID, newEntry.cbCategory.Text);
+
+                    budgetEntry.categoryID = nextCatID;
+                }
+                else
+                {
+                    budgetEntry.categoryID = (int)newEntry.cbCategory.SelectedValue;
+                }
+
                 int nextNo = -1;
                 foreach (BudgetEntry entry in budgetEntries.Values)
                 { if (entry.id > nextNo) nextNo = entry.id; }
 
-                BudgetEntry budgetEntry = new BudgetEntry();
+                
                 budgetEntry.id = nextNo + 1;
-                budgetEntry.categoryID = (int)newEntry.cbCategory.SelectedValue;
+                
                 budgetEntry.value = (float)newEntry.nudValue.Value;
                 budgetEntry.comment = newEntry.tbComment.Text;
+                budgetEntry.createdOn = newEntry.dtCreatedOn.Value;
+                budgetEntry.paidOn = newEntry.dtPaidOn.Value;
 
                 budgetEntries.Add(budgetEntry.id,budgetEntry);
                 ShowEntries();
@@ -98,12 +122,10 @@ namespace Haushaltsbuch
                 row.Cells[colValue.Name].Value = budgetEntrie.value.ToString();
                 row.Cells[colComment.Name].Value = budgetEntrie.comment.ToString();
 
+                row.Cells[colCreatedOn.Name].Value = budgetEntrie.createdOn.ToString("dd.MM.yyyy");
+                row.Cells[colPaidOn.Name].Value = budgetEntrie.paidOn.ToString("dd.MM.yyyy");
             }
         }
 
-        private void cbTest_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lblTest.Text = cbTest.SelectedValue + "#" + cbTest.SelectedText + "#"+cbTest.SelectedItem+"#"+cbTest.Text;
-        }
     }
 }

@@ -29,19 +29,27 @@
         private void InitializeComponent()
         {
             this.dgBudgetEntries = new System.Windows.Forms.DataGridView();
-            this.colID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.miFile = new System.Windows.Forms.ToolStripMenuItem();
             this.miFileQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.miHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.btnNewEntry = new System.Windows.Forms.Button();
-            this.cbTest = new System.Windows.Forms.ComboBox();
-            this.lblTest = new System.Windows.Forms.Label();
+            this.colID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCreatedOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPaidOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sbiMinusAmount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sbiBudget = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sbiPlusAmount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sbiBudgetLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sbiSpacer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgBudgetEntries)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,7 +62,9 @@
             this.dgBudgetEntries.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgBudgetEntries.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colID,
+            this.colCreatedOn,
             this.colCategory,
+            this.colPaidOn,
             this.colValue,
             this.colComment});
             this.dgBudgetEntries.Location = new System.Drawing.Point(12, 56);
@@ -65,40 +75,14 @@
             this.dgBudgetEntries.Size = new System.Drawing.Size(600, 300);
             this.dgBudgetEntries.TabIndex = 0;
             // 
-            // colID
-            // 
-            this.colID.FillWeight = 35.44304F;
-            this.colID.HeaderText = "ID";
-            this.colID.Name = "colID";
-            this.colID.ReadOnly = true;
-            this.colID.Width = 35;
-            // 
-            // colCategory
-            // 
-            this.colCategory.FillWeight = 122.3554F;
-            this.colCategory.HeaderText = "Kategorie";
-            this.colCategory.Name = "colCategory";
-            this.colCategory.ReadOnly = true;
-            this.colCategory.Width = 121;
-            // 
-            // colValue
-            // 
-            this.colValue.FillWeight = 121.4419F;
-            this.colValue.HeaderText = "Betrag €";
-            this.colValue.Name = "colValue";
-            this.colValue.ReadOnly = true;
-            this.colValue.Width = 120;
-            // 
-            // colComment
-            // 
-            this.colComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colComment.FillWeight = 120.7596F;
-            this.colComment.HeaderText = "Kommentar";
-            this.colComment.Name = "colComment";
-            this.colComment.ReadOnly = true;
-            // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sbiMinusAmount,
+            this.sbiPlusAmount,
+            this.sbiSpacer,
+            this.sbiBudgetLabel,
+            this.sbiBudget});
             this.statusStrip1.Location = new System.Drawing.Point(0, 366);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(626, 22);
@@ -128,7 +112,7 @@
             // miFileQuit
             // 
             this.miFileQuit.Name = "miFileQuit";
-            this.miFileQuit.Size = new System.Drawing.Size(152, 22);
+            this.miFileQuit.Size = new System.Drawing.Size(100, 22);
             this.miFileQuit.Text = "&Ende";
             this.miFileQuit.Click += new System.EventHandler(this.miFileQuit_Click);
             // 
@@ -148,33 +132,108 @@
             this.btnNewEntry.UseVisualStyleBackColor = true;
             this.btnNewEntry.Click += new System.EventHandler(this.btnNewEntry_Click);
             // 
-            // cbTest
+            // colID
             // 
-            this.cbTest.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbTest.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbTest.FormattingEnabled = true;
-            this.cbTest.Location = new System.Drawing.Point(257, 27);
-            this.cbTest.Name = "cbTest";
-            this.cbTest.Size = new System.Drawing.Size(121, 21);
-            this.cbTest.TabIndex = 4;
-            this.cbTest.SelectedIndexChanged += new System.EventHandler(this.cbTest_SelectedIndexChanged);
+            this.colID.FillWeight = 35.44304F;
+            this.colID.HeaderText = "ID";
+            this.colID.Name = "colID";
+            this.colID.ReadOnly = true;
+            this.colID.Width = 35;
             // 
-            // lblTest
+            // colCreatedOn
             // 
-            this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(385, 28);
-            this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(35, 13);
-            this.lblTest.TabIndex = 5;
-            this.lblTest.Text = "label1";
+            this.colCreatedOn.HeaderText = "Erfasst am";
+            this.colCreatedOn.Name = "colCreatedOn";
+            this.colCreatedOn.ReadOnly = true;
+            // 
+            // colCategory
+            // 
+            this.colCategory.FillWeight = 122.3554F;
+            this.colCategory.HeaderText = "Kategorie";
+            this.colCategory.Name = "colCategory";
+            this.colCategory.ReadOnly = true;
+            this.colCategory.Width = 125;
+            // 
+            // colPaidOn
+            // 
+            this.colPaidOn.HeaderText = "Bezahlt am";
+            this.colPaidOn.Name = "colPaidOn";
+            this.colPaidOn.ReadOnly = true;
+            // 
+            // colValue
+            // 
+            this.colValue.FillWeight = 121.4419F;
+            this.colValue.HeaderText = "Betrag €";
+            this.colValue.Name = "colValue";
+            this.colValue.ReadOnly = true;
+            this.colValue.Width = 70;
+            // 
+            // colComment
+            // 
+            this.colComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colComment.FillWeight = 120.7596F;
+            this.colComment.HeaderText = "Kommentar";
+            this.colComment.Name = "colComment";
+            this.colComment.ReadOnly = true;
+            // 
+            // sbiMinusAmount
+            // 
+            this.sbiMinusAmount.BackColor = System.Drawing.Color.LightCoral;
+            this.sbiMinusAmount.Name = "sbiMinusAmount";
+            this.sbiMinusAmount.Size = new System.Drawing.Size(45, 17);
+            this.sbiMinusAmount.Text = "- 0,00 €";
+            // 
+            // sbiBudget
+            // 
+            this.sbiBudget.BackColor = System.Drawing.SystemColors.Control;
+            this.sbiBudget.Name = "sbiBudget";
+            this.sbiBudget.Size = new System.Drawing.Size(37, 17);
+            this.sbiBudget.Text = "0,00 €";
+            // 
+            // sbiPlusAmount
+            // 
+            this.sbiPlusAmount.BackColor = System.Drawing.Color.LightGreen;
+            this.sbiPlusAmount.Name = "sbiPlusAmount";
+            this.sbiPlusAmount.Size = new System.Drawing.Size(48, 17);
+            this.sbiPlusAmount.Text = "+ 0,00 €";
+            // 
+            // sbiBudgetLabel
+            // 
+            this.sbiBudgetLabel.Name = "sbiBudgetLabel";
+            this.sbiBudgetLabel.Size = new System.Drawing.Size(59, 17);
+            this.sbiBudgetLabel.Text = "Budget = ";
+            // 
+            // sbiSpacer
+            // 
+            this.sbiSpacer.Name = "sbiSpacer";
+            this.sbiSpacer.Size = new System.Drawing.Size(19, 17);
+            this.sbiSpacer.Text = "    ";
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(118, 27);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(100, 23);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Aktualisieren";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(514, 27);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Neue Kategorie";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(626, 388);
-            this.Controls.Add(this.lblTest);
-            this.Controls.Add(this.cbTest);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnNewEntry);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip);
@@ -184,6 +243,8 @@
             this.Name = "frmMain";
             this.Text = "Main";
             ((System.ComponentModel.ISupportInitialize)(this.dgBudgetEntries)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -194,17 +255,24 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgBudgetEntries;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colComment;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem miFile;
         private System.Windows.Forms.ToolStripMenuItem miFileQuit;
         private System.Windows.Forms.ToolStripMenuItem miHelp;
         private System.Windows.Forms.Button btnNewEntry;
-        private System.Windows.Forms.ComboBox cbTest;
-        private System.Windows.Forms.Label lblTest;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCreatedOn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCategory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPaidOn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colComment;
+        private System.Windows.Forms.ToolStripStatusLabel sbiMinusAmount;
+        private System.Windows.Forms.ToolStripStatusLabel sbiPlusAmount;
+        private System.Windows.Forms.ToolStripStatusLabel sbiBudget;
+        private System.Windows.Forms.ToolStripStatusLabel sbiSpacer;
+        private System.Windows.Forms.ToolStripStatusLabel sbiBudgetLabel;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button button1;
     }
 }
